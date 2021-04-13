@@ -9,6 +9,8 @@
     <Import_RootNamespace>VToolBase.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LinqHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextHelpers.cs" />
   </ItemGroup>
 </Project>
