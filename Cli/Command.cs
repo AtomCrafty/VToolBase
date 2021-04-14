@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using VToolBase.Cli.Commands;
 using VToolBase.Cli.Util;
-using VToolBase.Core;
 
 namespace VToolBase.Cli {
 	public abstract class Command {
@@ -24,6 +21,10 @@ namespace VToolBase.Cli {
 		public abstract bool Execute();
 
 		#region Helpers
+
+		protected void Wait() {
+			Wait(ProcessHelpers.WasStartedFromExplorer());
+		}
 
 		protected void Wait(bool fallback) {
 			if(Parameters.GetBool("wait", 'w', fallback)) {

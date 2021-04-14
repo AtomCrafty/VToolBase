@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VToolBase.Cli.Util {
+namespace VToolBase.Cli {
 	public static class Output {
 
 		private static readonly BlockingCollection<(string text, ConsoleColor foregroundColor, ConsoleColor backgroundColor)> WriteQueue = new BlockingCollection<(string, ConsoleColor, ConsoleColor)>();

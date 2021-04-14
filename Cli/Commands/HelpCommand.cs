@@ -25,7 +25,7 @@ namespace VToolBase.Cli.Commands {
 
 		public override (char shorthand, string name, string fallback, string description)[] Flags => new[] {
 			('q', "quiet", "false", "Disable user-friendly output"),
-			('w', "wait", "true", "Whether to wait after displaying the help page")
+			('w', "wait", "false", "Whether to wait after displaying the help page")
 		};
 
 		public override bool Execute() {
@@ -38,7 +38,7 @@ namespace VToolBase.Cli.Commands {
 				var command = CommandManager.CreateFromName(Arguments[0], CommandParameters.Empty);
 				if(command != null) {
 					DisplayCommandHelp(command);
-					Wait(true);
+					Wait();
 					return true;
 				}
 			}
@@ -48,7 +48,7 @@ namespace VToolBase.Cli.Commands {
 
 			Output.WriteLineColored($"For more information on a specific command type \"{ExeName} help \aacommand\a-\"");
 
-			Wait(true);
+			Wait();
 			return true;
 		}
 

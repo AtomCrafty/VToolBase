@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CommandParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\HelpCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\Output.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\ProcessHelpers.cs" />
   </ItemGroup>
 </Project>
