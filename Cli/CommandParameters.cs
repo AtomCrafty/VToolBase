@@ -24,7 +24,7 @@ namespace VToolBase.Cli {
 			string key = parts[0];
 			string value = parts.Length == 2 ? parts[1] : "true";
 			if(value.StartsWith("\"") && value.EndsWith("\"")) {
-				value = value.Substring(1, value.Length - 2);
+				value = value[1..^1];
 			}
 
 			SetFlag(key, value);
@@ -36,7 +36,7 @@ namespace VToolBase.Cli {
 			}
 			else {
 				// expand -abc to -a -b -c
-				foreach(char shorthand in key.Substring(1)) {
+				foreach(char shorthand in key[1..]) {
 					Flags["-" + shorthand] = value;
 				}
 			}

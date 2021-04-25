@@ -32,8 +32,8 @@ namespace VToolBase.Cli {
 			}
 		}
 
-		protected void Log(string text) {
-			if(!Parameters.GetBool("quiet", 'q', false) && Parameters.GetBool("verbose", 'v', false)) {
+		protected void Log(string text, bool verbose = false) {
+			if(!Parameters.GetBool("quiet", 'q', false) && (!verbose || Parameters.GetBool("verbose", 'v', false))) {
 				Output.WriteLineColored(text);
 			}
 		}

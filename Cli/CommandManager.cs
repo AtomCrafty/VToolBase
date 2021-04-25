@@ -22,14 +22,20 @@ namespace VToolBase.Cli {
 			return CommandFactories.TryGet(name, _ => null)(parameters);
 		}
 
-		public static bool TryRun(string[] cliArgs) {
+		public static bool TryRun(params string[] cliArgs) {
 			var commandLine = CommandParameters.ParseArguments(cliArgs);
 			if(commandLine.Arguments.Count == 0) return false;
 
 			var command = CreateFromName(commandLine.Arguments[0], commandLine);
 			if(command == null) return false;
 
-			command.Execute();
+			try { 
+				command.Execute();
+			}
+			catch(Exception e) {
+				Output.WriteLineColored($"Command \aa{command.Name}\a- failed with an error:\n\ac{e.Message}");
+				Output.Write(e.StackTrace);
+			}
 			return true;
 		}
 	}
