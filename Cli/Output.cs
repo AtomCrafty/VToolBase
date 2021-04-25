@@ -17,6 +17,16 @@ namespace VToolBase.Cli {
 		static Output() {
 			Task.Run(() => {
 				foreach(var (text, foregroundColor, backgroundColor) in WriteQueue.GetConsumingEnumerable()) {
+					if(text.StartsWith('\0')) {
+						switch(text) {
+							case "\0ClearLine":
+								Console.CursorLeft = 0;
+								Console.Write(new string(' ', Console.WindowWidth));
+								Console.CursorLeft = 0;
+								break;
+						}
+						continue;
+					}
 					Console.ForegroundColor = foregroundColor;
 					Console.BackgroundColor = backgroundColor;
 					Console.Write(text);
@@ -102,5 +112,7 @@ namespace VToolBase.Cli {
 			=> WriteColored(text + Environment.NewLine);
 
 		#endregion
+
+		public static void ClearLine() => Write("\0ClearLine");
 	}
 }
