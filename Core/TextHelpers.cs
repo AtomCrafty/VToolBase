@@ -28,5 +28,17 @@ namespace VToolBase.Core {
 				}
 			});
 		}
+
+		public static string Humanize(ulong value) {
+			if(value > 10_000_000_000_000)
+				return $"{(double)value / 1_000_000_000_000:F2}t";
+			if(value > 10_000_000_000)
+				return $"{(double)value / 1_000_000_000:F2}b";
+			if(value > 10_000_000)
+				return $"{(double)value / 1_000_000:F2}m";
+			if(value > 10_000)
+				return $"{(double)value / 1_000:F2}k";
+			return value.ToString();
+		}
 	}
 }
