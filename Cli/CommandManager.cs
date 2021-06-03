@@ -33,8 +33,8 @@ namespace VToolBase.Cli {
 				command.Execute();
 			}
 			catch(Exception e) {
-				Output.WriteLineColored($"Command \aa{command.Name}\a- failed with an error:\n\ac{e.Message}");
-				Output.Write(e.StackTrace);
+				Output.WriteLineColored($"Command \aa{command.Name}\a- failed with an error:");
+				Output.WriteException(e);
 			}
 			return true;
 		}

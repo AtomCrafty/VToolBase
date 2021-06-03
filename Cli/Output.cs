@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ namespace VToolBase.Cli {
 		private static readonly ConsoleColor DefaultBackgroundColor = Console.BackgroundColor;
 
 		private static readonly AutoResetEvent QueueEmpty = new AutoResetEvent(false);
+		private static readonly SemaphoreSlim FlushEvent = new SemaphoreSlim(0);
 
 		static Output() {
 			Task.Run(() => {
@@ -23,6 +26,9 @@ namespace VToolBase.Cli {
 								Console.CursorLeft = 0;
 								Console.Write(new string(' ', Console.WindowWidth));
 								Console.CursorLeft = 0;
+								break;
+							case "\0Flush":
+								FlushEvent.Release();
 								break;
 						}
 						continue;
@@ -36,10 +42,17 @@ namespace VToolBase.Cli {
 			});
 		}
 
-		public static void Flush() {
+		public static void Terminate() {
 			WriteQueue.CompleteAdding();
 			QueueEmpty.WaitOne();
 		}
+
+		public static void Flush() {
+			Write("\0Flush");
+			FlushEvent.Wait();
+		}
+
+		public static void ClearLine() => Write("\0ClearLine");
 
 		#region Text output methods
 
@@ -113,6 +126,33 @@ namespace VToolBase.Cli {
 
 		#endregion
 
-		public static void ClearLine() => Write("\0ClearLine");
+		public static void WriteStackTrace(Exception exception) {
+			var stackTrace = new StackTrace(exception, true);
+			foreach(var frame in stackTrace.GetFrames()) {
+				if(frame == null) continue;
+				var method = frame.GetMethod();
+				if(method == null) continue;
+				var type = method.DeclaringType;
+				if(type == null) continue;
+
+				WriteColored($"   at \ab{type.Name}\a-.\aa{method.Name}");
+
+				string file = frame.GetFileName();
+				if(file != null) {
+					WriteColored($" in \ab{Path.GetFileName(file)}\a-:\aa{frame.GetFileLineNumber()}");
+				}
+
+				WriteLine();
+			}
+		}
+
+		public static void WriteException(Exception exception) {
+			WriteLineColored($"\ac{exception.Message.Replace("\a-", "\ac")}");
+			WriteStackTrace(exception);
+			if(exception.InnerException != null) {
+				Write("Caused by: ", ConsoleColor.Red);
+				WriteException(exception.InnerException);
+			}
+		}
 	}
 }
