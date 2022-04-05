@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace VToolBase.Cli {
 	public class CommandParameters {
 
-		public readonly List<string> Arguments = new List<string>();
-		public readonly Dictionary<string, string> Flags = new Dictionary<string, string>();
+		public readonly List<string> Arguments = new();
+		public readonly Dictionary<string, string> Flags = new();
 
 		public CommandParameters(IEnumerable<string> cliArgs) {
 			foreach(string argument in cliArgs) {
@@ -112,11 +112,9 @@ namespace VToolBase.Cli {
 
 		#region Static
 
-		public static CommandParameters Empty => new CommandParameters(Array.Empty<string>());
+		public static CommandParameters Empty => new(Array.Empty<string>());
 
-		public static CommandParameters ParseArguments(IEnumerable<string> args) {
-			return new CommandParameters(args);
-		}
+		public static CommandParameters ParseArguments(IEnumerable<string> args) => new(args);
 
 		#endregion
 	}

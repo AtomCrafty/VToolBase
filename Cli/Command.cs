@@ -32,6 +32,30 @@ namespace VToolBase.Cli {
 			}
 		}
 
+		protected bool ConfirmOverwrite(string file) {
+			switch(Parameters.GetString("overwrite", 'o', "ask")) {
+				case "true": return true;
+				case "false": return false;
+
+				default:
+				again:
+					Log($"File \ae{file}\a- already exists. Overwrite? (\aby\a-es/\abn\a-o/\aba\a-ll)");
+					var key = Console.ReadKey(true);
+					switch(key.KeyChar) {
+						case 'y':
+							return true;
+						case 'n':
+							return false;
+						case 'a':
+							Parameters.SetFlag("--overwrite", "true");
+							Parameters.SetFlag("-o", "true");
+							return true;
+						default:
+							goto again;
+					}
+			}
+		}
+
 		protected void Log(string text, bool verbose = false) {
 			if(!Parameters.GetBool("quiet", 'q', false) && (!verbose || Parameters.GetBool("verbose", 'v', false))) {
 				Output.WriteLineColored(text);
