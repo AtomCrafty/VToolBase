@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)LinqHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StreamHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextHelpers.cs" />
   </ItemGroup>
 </Project>
