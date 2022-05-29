@@ -39,16 +39,19 @@ namespace VToolBase.Cli {
 
 				default:
 				again:
-					Log($"File \ae{file}\a- already exists. Overwrite? (\aby\a-es/\abn\a-o/\aba\a-ll)");
+					Log($"File \ae{file}\a- already exists. Overwrite? (\aby\a-es/\abn\a-o/\aba\a-ll)", newLine: false);
 					var key = Console.ReadKey(true);
 					switch(key.KeyChar) {
 						case 'y':
+							Output.ClearLine();
 							return true;
 						case 'n':
+							Output.ClearLine();
 							return false;
 						case 'a':
 							Parameters.SetFlag("--overwrite", "true");
 							Parameters.SetFlag("-o", "true");
+							Output.ClearLine();
 							return true;
 						default:
 							goto again;
@@ -56,9 +59,12 @@ namespace VToolBase.Cli {
 			}
 		}
 
-		protected void Log(string text, bool verbose = false) {
+		protected void Log(string text, bool verbose = false, bool newLine = true) {
 			if(!Parameters.GetBool("quiet", 'q', false) && (!verbose || Parameters.GetBool("verbose", 'v', false))) {
-				Output.WriteLineColored(text);
+				if(newLine)
+					Output.WriteLineColored(text);
+				else
+					Output.WriteColored(text);
 			}
 		}
 
