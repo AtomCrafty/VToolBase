@@ -5,9 +5,9 @@ using VToolBase.Core;
 
 namespace VToolBase.Cli.Commands {
 	public class HelpCommand : Command {
-		public static string ExeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location).ToLower();
-		public static string AppName = ExeName.UcFirst() + "Tool Cli";
-		public static string LibName = ExeName.UcFirst() + "Tool Core";
+		public static readonly string ExeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location).ToLower();
+		public static readonly string AppName = ExeName.UcFirst() + "Tool Cli";
+		public static readonly string LibName = ExeName.UcFirst() + "Tool Core";
 
 		public HelpCommand(CommandParameters parameters) : base(parameters) { }
 
@@ -17,14 +17,14 @@ namespace VToolBase.Cli.Commands {
 			"Displays general information about " + AppName
 		};
 
-		public override (string syntax, string description)[] Usage => new[] {
-			("", "Display general information about " + AppName),
-			("\aacommand", "Display the help page of a specific \aacommand")
+		public override UsageCollection Usage => new() {
+			{ "", "Display general information about " + AppName },
+			{ "\aacommand", "Display the help page of a specific \aacommand" }
 		};
 
-		public override (char shorthand, string name, string fallback, string description)[] Flags => new[] {
-			('q', "quiet", "false", "Disable user-friendly output"),
-			('w', "wait", "false", "Whether to wait after displaying the help page")
+		public override FlagCollection Flags => new() {
+			{ 'q', "quiet", "false", "Disable user-friendly output" },
+			{ 'w', "wait", "false", "Whether to wait after displaying the help page" }
 		};
 
 		public override bool Execute() {
@@ -91,10 +91,10 @@ namespace VToolBase.Cli.Commands {
 		public static void DisplayCommandUsage(Command command) {
 			Output.WriteCaption("Usage");
 
-			foreach(var usage in command.Usage) {
-				Output.WriteLineColored($"  {ExeName} \aa{command.Name} \ab{usage.syntax}");
-				if(usage.description != null) {
-					Output.WriteLineColored("   " + usage.description);
+			foreach(var (syntax, description) in command.Usage) {
+				Output.WriteLineColored($"  {ExeName} \aa{command.Name} \ab{syntax}");
+				if(description != null) {
+					Output.WriteLineColored("   " + description);
 				}
 			}
 
@@ -103,7 +103,7 @@ namespace VToolBase.Cli.Commands {
 
 		private static void DisplayCommandFlags(Command command) {
 			var flags = command.Flags;
-			if(flags.Length == 0) return;
+			if(flags.Count == 0) return;
 
 			Output.WriteCaption("Flags");
 

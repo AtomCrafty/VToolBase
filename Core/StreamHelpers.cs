@@ -12,7 +12,8 @@ public static class StreamHelpers {
 
 		void MoveBlock(long src, long dst, int count) {
 			stream.Seek(src, SeekOrigin.Begin);
-			stream.Read(buffer, 0, count);
+			int read = 0;
+			while(read < count) read += stream.Read(buffer, read, count - read);
 			stream.Seek(dst, SeekOrigin.Begin);
 			stream.Write(buffer, 0, count);
 		}

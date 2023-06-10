@@ -129,7 +129,6 @@ namespace VToolBase.Cli {
 		public static void WriteStackTrace(Exception exception) {
 			var stackTrace = new StackTrace(exception, true);
 			foreach(var frame in stackTrace.GetFrames()) {
-				if(frame == null) continue;
 				var method = frame.GetMethod();
 				if(method == null) continue;
 				var type = method.DeclaringType;
@@ -137,7 +136,7 @@ namespace VToolBase.Cli {
 
 				WriteColored($"   at \ab{type.Name}\a-.\aa{method.Name}");
 
-				string file = frame.GetFileName();
+				string? file = frame.GetFileName();
 				if(file != null) {
 					WriteColored($" in \ab{Path.GetFileName(file)}\a-:\aa{frame.GetFileLineNumber()}");
 				}

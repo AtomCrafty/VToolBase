@@ -7,7 +7,7 @@ using VToolBase.Core;
 namespace VToolBase.Cli {
 	public static class CommandManager {
 
-		private static readonly Dictionary<string, Func<CommandParameters, Command>> CommandFactories = new Dictionary<string, Func<CommandParameters, Command>> {
+		private static readonly Dictionary<string, Func<CommandParameters, Command>> CommandFactories = new() {
 			{"help", parameters => new HelpCommand(parameters) },
 		};
 
@@ -18,8 +18,8 @@ namespace VToolBase.Cli {
 
 		public static IEnumerable<Command> AvailableCommands => CommandFactories.Values.Select(factory => factory(CommandParameters.Empty));
 
-		public static Command CreateFromName(string name, CommandParameters parameters) {
-			return CommandFactories.TryGet(name, _ => null)(parameters);
+		public static Command? CreateFromName(string name, CommandParameters parameters) {
+			return CommandFactories.TryGet(name, _ => null!)(parameters);
 		}
 
 		public static bool TryRun(params string[] cliArgs) {

@@ -10,8 +10,8 @@ namespace VToolBase.Cli {
 		public abstract string Name { get; }
 		public abstract string[] Description { get; }
 
-		public abstract (string syntax, string description)[] Usage { get; }
-		public abstract (char shorthand, string name, string fallback, string description)[] Flags { get; }
+		public abstract UsageCollection Usage { get; }
+		public abstract FlagCollection Flags { get; }
 
 		protected Command(CommandParameters parameters) {
 			Parameters = parameters;
@@ -81,5 +81,19 @@ namespace VToolBase.Cli {
 		}
 
 		#endregion
+	}
+
+	public readonly record struct CommandUsage(string Syntax, string? Description);
+
+	public class UsageCollection : List<CommandUsage> {
+		public void Add(string syntax, string? description) =>
+			Add(new CommandUsage(syntax, description));
+	}
+
+	public readonly record struct CommandFlag(char? Shorthand, string? Name, string? Fallback, string? Description);
+
+	public class FlagCollection : List<CommandFlag> {
+		public void Add(char? shorthand, string? name, string? fallback, string? description) =>
+			Add(new CommandFlag(shorthand, name, fallback, description));
 	}
 }
