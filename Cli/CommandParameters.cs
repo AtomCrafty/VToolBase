@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace VToolBase.Cli {
+﻿namespace VToolBase.Cli {
 	public class CommandParameters {
 
 		public readonly List<string> Arguments = new();

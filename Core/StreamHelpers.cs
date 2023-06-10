@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace VToolBase.Core;
+﻿namespace VToolBase.Core;
 
 public static class StreamHelpers {
 	public static void MoveData(this Stream stream, long srcOffset, long dstOffset, long size) {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using VToolBase.Cli.Util;
+﻿using VToolBase.Cli.Util;
 
 namespace VToolBase.Cli {
 	public abstract class Command {

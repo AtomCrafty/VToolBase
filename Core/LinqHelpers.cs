@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VToolBase.Core; 
+﻿namespace VToolBase.Core; 
 
 public static class LinqHelpers {
 	public static bool IsOneOf<T>(this T value, params T[] options) =>
